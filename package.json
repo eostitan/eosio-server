@@ -1,0 +1,23 @@
+{
+  "name": "eosio-server",
+  "version": "1.0.0",
+  "description": "HTTP Server providing initial configuration and coordination for the launch of an eos testnet",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CryptoMechanics/eosio-server.git"
+  },
+  "author": "Guillaume Babin-Tremblay",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CryptoMechanics/eosio-server/issues"
+  },
+  "homepage": "https://github.com/CryptoMechanics/eosio-server#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "*"
+  }
+}

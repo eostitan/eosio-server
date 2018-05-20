@@ -1,0 +1,20 @@
+[
+	{
+		"name":"hermes",
+		"genesis":"hermes.json",
+		"tag": "DAWN-2018-05-16",
+		"peers": [
+			"hermes.eostitan.com:8888",
+			"174.88.181.209:8888"
+		]
+	},
+	{
+		"name":"persephone",
+		"genesis":"persephone.json",
+		"tag": "dawn-v4.1.0",
+		"peers": [
+			"persephone.eostitan.com:8888",
+			"174.88.181.209:8899"
+		]
+	}
+]
