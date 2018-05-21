@@ -2,7 +2,7 @@
   "name": "eosio-server",
   "version": "1.0.0",
   "description": "HTTP Server providing initial configuration and coordination for the launch of an eos testnet",
-  "main": "main.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,6 +18,8 @@
   "homepage": "https://github.com/CryptoMechanics/eosio-server#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "*"
+    "express": "*",
+    "eosjs-ecc": "*",
+    "canonicaljson": "*"
   }
 }
