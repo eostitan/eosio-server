@@ -14,18 +14,20 @@ app.post('/', function(req, res) {
 
 	if (!req.body || !req.body.network_name) return res.json({error: "must supply post parameter network_name"});
 	
-	var network = config.find(function(n){return n.name = req.body.network_name});
+	let found = config.find(function(n){return n.name == req.body.network_name});
 
-	if (network){
+	if (found){
 
-		var genesis_file = "./files/" + network.genesis;
+		let network = JSON.parse(JSON.stringify(found));
+
+		let genesis_file = "./files/" + network.genesis;
 
 		console.log("genesis_file", genesis_file);
 
 		network.genesis_content = require(genesis_file);
 
 		console.log("network.genesis_content", network.genesis_content);
-		
+
 		res.json({network:network});
 
 	}
