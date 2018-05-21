@@ -1,0 +1,8 @@
+[
+  {
+    "name": "poseidon",
+    "genesis": "poseidon.json (will be autocreated)",
+    "peers": "poseidon.json (will be autocreated)",
+    "tag": "dawn-v4.1.0"
+  }
+]

@@ -5,13 +5,13 @@ var fs = require("fs");
 var eos = require("eosjs-ecc");
 var cjson = require("canonicaljson");
 
-var currentDir = process.cwd();
-
-var config = require("./config/networks.json");
-
 var serverConfig;
 
 if (fs.existsSync("./config/server.json")) serverConfig = require("./config/server.json");
+if (!fs.existsSync("./config/networks.json")) fs.writeFileSync("./config/networks.json", JSON.stringify([]));
+
+
+var config = require("./config/networks.json");
 
 function server(){
 
@@ -21,17 +21,19 @@ function server(){
 
 	var port = 3000;
 
-	function extendNetwork(network, addContent = true){
+	var extendNetwork = function(network, addContent){
 
 		let newNetwork = JSON.parse(JSON.stringify(network));
 
-		if (addContent){
+		if (addContent == true){
 
-			let genesis_file = path.join(currentDir, "files", "genesis", network.genesis);
-			let peers_file = path.join(currentDir, "files", "peers", network.peers);
+			let genesis_file = path.join(process.cwd(), "files", "genesis", network.genesis);
+			let peers_file = path.join(process.cwd(), "files", "peers", network.peers);
 
-			newNetwork.genesis = require(genesis_file);
-			newNetwork.peers = require(peers_file);
+			newNetwork.genesis = JSON.parse(fs.readFileSync(genesis_file, "utf8"));
+			newNetwork.peers = JSON.parse(fs.readFileSync(peers_file, "utf8"));
+
+			console.log("newNetwork", newNetwork);
 
 		}
 		else {
@@ -39,10 +41,11 @@ function server(){
 			delete newNetwork.peers;
 		}
 
-		return newNetwork;	
+		return newNetwork;
+
 	}
 
-	function authenticate(req){
+	var authenticate = function(req){
 
 		if (!req.body.signature) {console.log("Signature not provided."); return false};
 
@@ -51,14 +54,21 @@ function server(){
 
 		delete message.signature;
 
-		let verification = eos.verify(signature, cjson.stringify(message), serverConfig.public_key);
+		try{
 
-		console.log("message:", message);
-		console.log("signature:", signature);
-		console.log("serverConfig.public_key:", serverConfig.public_key);
-		console.log("verification:", verification);
+			let verification = eos.verify(signature, cjson.stringify(message), serverConfig.public_key);
 
-		return verification;
+			console.log("message:", message);
+			console.log("signature:", signature);
+			console.log("serverConfig.public_key:", serverConfig.public_key);
+			console.log("verification:", verification);
+
+			return verification;
+
+		}
+		catch (ex){
+			return false;
+		}
 
 	}
 
@@ -67,7 +77,10 @@ function server(){
 		let found = config.find(function(n){return n.name == req.params.network});
 
 		if (found){
-			return res.json({network:extendNetwork(found)});
+			
+			console.log("NETWORK:", found);
+
+			return res.json({network:extendNetwork(found, true)});
 		}
 		else return res.json({error:"network not found"});
 
@@ -87,8 +100,8 @@ function server(){
 		if (!req.body.network_name) return res.json({error: "must supply post parameter network_name"});
 
 		let network = config.find(function(n){return n.name == req.body.network_name});
-		let peers_file = path.join(currentDir, "files", "peers", network.peers);
-		let peers = require(peers_file) || [];
+		let peers_file = path.join(process.cwd(), "files", "peers", network.peers);
+		let peers = JSON.parse(fs.readFileSync(peers_file, "utf8"));
 
 		console.log("peers", peers);
 
@@ -110,14 +123,18 @@ function server(){
 		if (!req.body.network_name) return res.json({error: "must supply post parameter network_name"});
 
 		let network = config.find(function(n){return n.name == req.body.network_name});
-		let peers_file = path.join(currentDir, "files", "peers", network.peers);
-		let peers = require(peers_file) || [];
+		let peers_file = path.join(process.cwd(), "files", "peers", network.peers);
+		let peers = JSON.parse(fs.readFileSync(peers_file, "utf8"));
 
 		if (!peers.find(function(p){return p == req.body.peer})) return res.json({error: "peer not found"});
 
-		peers = peers.filter(function(p){return p != req.body.peer});
+		console.log("PEERS BEFORE:", peers);
+
+		let newPeers = peers.filter(function(p){return p != req.body.peer});
 		
-		fs.writeFileSync(peers_file, JSON.stringify(peers, null, 2));
+		console.log("PEERS AFTER:", newPeers);
+
+		fs.writeFileSync(peers_file, JSON.stringify(newPeers, null, 2));
 
 		return res.json({result: "success"});
 
@@ -133,8 +150,8 @@ function server(){
 
 		if (config.find(function(n){return n.name == req.body.network_name})) return res.json({error: "network already exists"});
 
-		let peers_file = path.join(currentDir, "files", "peers", req.body.network_name + ".json");
-		let genesis_file = path.join(currentDir, "files", "genesis", req.body.network_name + ".json");
+		let peers_file = path.join(process.cwd(), "files", "peers", req.body.network_name + ".json");
+		let genesis_file = path.join(process.cwd(), "files", "genesis", req.body.network_name + ".json");
 
 		fs.writeFileSync(peers_file, JSON.stringify([], null, 2));
 		fs.writeFileSync(genesis_file, JSON.stringify(req.body.genesis, null, 2));
@@ -160,11 +177,17 @@ function server(){
 
 		if (!req.body.network_name) return res.json({error: "must supply post parameter network_name"});
 
-		if (!config.find(function(n){return n.name == req.body.network_name})) return res.json({error: "network not found"});
+		let found = config.find(function(n){return n.name == req.body.network_name});
+
+		console.log("Found", found);
+
+		if (!found) return res.json({error: "network not found"});
 
 		config = config.filter(function(n){return n.name != req.body.network_name});
 
 		fs.writeFileSync(path.join(process.cwd(), "config", "networks.json"), JSON.stringify(config, null, 2 ));
+		fs.unlinkSync(path.join(process.cwd(), "files", "genesis", found.genesis));
+		fs.unlinkSync(path.join(process.cwd(), "files", "peers", found.peers));
 
 		return res.json({result: "success"});
 
@@ -178,8 +201,13 @@ function server(){
 
 		let verification = eos.verify(req.body.signature, cjson.stringify(req.body.message), eos.PublicKey.fromString(req.body.public_key));
 
+		console.log("req.body.public_key", req.body.public_key);
+		console.log("req.body.message", req.body.message);
+		console.log("req.body.signature", req.body.signature);
+		console.log("verification", verification);
+
 		if (verification) return res.json({result: "success"});
-		else return res.json({error: "signature doesn't match"});
+		else return res.json({error: "invalid signature"});
 
 	});
 
