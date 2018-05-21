@@ -8,13 +8,11 @@ app.use(bodyParser.json({ type: 'application/json' }))
 
 var port = 3000;
 
-app.post('/', function(req, res) {
+app.get('/:network', function(req, res) {
 
-	console.log("req", req.body);
-
-	if (!req.body || !req.body.network_name) return res.json({error: "must supply post parameter network_name"});
+	//if (!req.body || !req.body.network_name) return res.json({error: "must supply post parameter network_name"});
 	
-	let found = config.find(function(n){return n.name == req.body.network_name});
+	let found = config.find(function(n){return n.name == req.params.network});
 
 	if (found){
 
@@ -22,11 +20,7 @@ app.post('/', function(req, res) {
 
 		let genesis_file = "./files/" + network.genesis;
 
-		console.log("genesis_file", genesis_file);
-
 		network.genesis_content = require(genesis_file);
-
-		console.log("network.genesis_content", network.genesis_content);
 
 		res.json({network:network});
 
