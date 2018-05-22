@@ -101,7 +101,8 @@ Example:
 					{"name":"eosio.token"},
 					{"name":"eosio.msig"}
 				]
-			},```
+			}
+```
 
 Equivalent to : 
 ```
