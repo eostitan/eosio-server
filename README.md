@@ -66,7 +66,8 @@ commands:
 Runs nodeos with specified arguments.
 
 #### parameters
-*arguments* List of arguments to pass to nodeos
+*arguments* 
+List of arguments to pass to nodeos
 
 
 Example:
@@ -88,8 +89,12 @@ nodeos -e -p eosio
 Create keys, import them and create accounts for initial smart contracts.
 
 #### parameters
-*account* Creator account (ie: eosio)
-*keys* Array of contracts to be created
+*account* 
+Creator account (ie: eosio)
+
+*keys* 
+Array of contracts to be created
+
 
 Example:
 ```
@@ -120,8 +125,11 @@ cleos create account eosio eosio.msig EOSBBBBBB...
 Pushes a smart contract on the blockchain
 
 #### parameters
-*name* Name of the contract (should match account created previously)
-*path* Name of the folder containing the .ABI and .WAST contract, assuming contracts are in ~/releases/eos/build/contracts
+*name* 
+Name of the contract (should match account created previously)
+
+*path* 
+Name of the folder containing the .ABI and .WAST contract, assuming contracts are in ~/releases/eos/build/contracts
 
 Example:
 ```
@@ -142,10 +150,17 @@ cleos set contract eosio.token ~/releases/eos/build/contracts/eosio.token
 Pushes a single action on the blockchain
 
 #### parameters
-*signature* Signature that should be used with the permission -p flag
-*contract* Contract to interact with
-*action* Method to call on the contract
-*params* Array of parameters that should be passed to the contract function
+*signature* 
+Signature that should be used with the permission -p flag
+
+*contract* 
+Contract to interact with
+
+*action* 
+Method to call on the contract
+
+*params* 
+Array of parameters that should be passed to the contract function
 
 Example:
 ```
