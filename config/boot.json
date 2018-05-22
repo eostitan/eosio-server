@@ -1,0 +1,65 @@
+[
+	{
+		"tag":"dawn-v4.1.0",
+		"configuration": "base_testnet",
+		"description": "https://github.com/EOSIO/eos/wiki/Tutorial-Bios-Boot-Sequence",
+		"sequence": [
+			{
+				"index": 0,
+				"command": "nodeos",
+				"account": "eosio",
+				"arguments": "-e -p"
+			},
+			{
+				"index": 1,
+				"command": "generate_contract_keys",
+				"account": "eosio",
+				"keys": [
+					{"name":"eosio.token"},
+					{"name":"eosio.msig"}
+				]
+			},
+			{
+				"index": 2,
+				"command": "set_contract",
+				"name": "eosio.token",
+				"path": "eosio.token"
+			},
+			{
+				"index": 3,
+				"command": "set_contract",
+				"name": "eosio.msig",
+				"path": "eosio.msig"
+			},
+			{
+				"index": 4,
+				"command": "push_action",
+				"account": "eosio.token",
+				"contract": "eosio.token",
+				"action": "create",
+				"params": [
+					"eosio",
+					"10000000000.0000 SYS"
+				]
+			},
+			{
+				"index": 5,
+				"command": "push_action",
+				"account": "eosio",
+				"contract": "eosio.token",
+				"action": "issue",
+				"params": [
+					"eosio",
+					"1000000000.0000 SYS", 
+					"memo"
+				]
+			},
+			{
+				"index": 6,
+				"command": "set_contract",
+				"name": "eosio",
+				"path": "eosio.system"
+			}
+		]
+	}
+]

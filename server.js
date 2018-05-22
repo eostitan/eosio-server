@@ -10,8 +10,8 @@ var serverConfig;
 if (fs.existsSync("./config/server.json")) serverConfig = require("./config/server.json");
 if (!fs.existsSync("./config/networks.json")) fs.writeFileSync("./config/networks.json", JSON.stringify([]));
 
-
 var config = require("./config/networks.json");
+var masterBoot = require("./config/boot.json");
 
 function server(){
 
@@ -21,6 +21,17 @@ function server(){
 
 	var port = 3000;
 
+	var getBoot = function(tag){
+
+		let boot = masterBoot.find(function(b){return b.tag == tag});
+
+		if (boot){
+			return boot;
+		}
+		else return {};
+
+	}
+
 	var extendNetwork = function(network, addContent){
 
 		let newNetwork = JSON.parse(JSON.stringify(network));
@@ -29,9 +40,11 @@ function server(){
 
 			let genesis_file = path.join(process.cwd(), "files", "genesis", network.genesis);
 			let peers_file = path.join(process.cwd(), "files", "peers", network.peers);
+			let boot_file = path.join(process.cwd(), "files", "boot", network.boot);
 
 			newNetwork.genesis = JSON.parse(fs.readFileSync(genesis_file, "utf8"));
 			newNetwork.peers = JSON.parse(fs.readFileSync(peers_file, "utf8"));
+			newNetwork.boot = JSON.parse(fs.readFileSync(boot_file, "utf8"));
 
 			console.log("newNetwork", newNetwork);
 
@@ -39,6 +52,7 @@ function server(){
 		else {
 			delete newNetwork.genesis;
 			delete newNetwork.peers;
+			delete newNetwork.boot;
 		}
 
 		return newNetwork;
@@ -152,14 +166,17 @@ function server(){
 
 		let peers_file = path.join(process.cwd(), "files", "peers", req.body.network_name + ".json");
 		let genesis_file = path.join(process.cwd(), "files", "genesis", req.body.network_name + ".json");
+		let boot_file = path.join(process.cwd(), "files", "boot", req.body.network_name + ".json");
 
 		fs.writeFileSync(peers_file, JSON.stringify([], null, 2));
 		fs.writeFileSync(genesis_file, JSON.stringify(req.body.genesis, null, 2));
+		fs.writeFileSync(boot_file, JSON.stringify(getBoot(req.body.tag), null, 2));
 
 		var configEntry = {
 			"name":req.body.network_name,
 			"genesis":req.body.network_name + ".json",
 			"peers":req.body.network_name + ".json",
+			"boot":req.body.network_name + ".json",
 			"tag": req.body.tag
 		}
 
@@ -188,6 +205,8 @@ function server(){
 		fs.writeFileSync(path.join(process.cwd(), "config", "networks.json"), JSON.stringify(config, null, 2 ));
 		fs.unlinkSync(path.join(process.cwd(), "files", "genesis", found.genesis));
 		fs.unlinkSync(path.join(process.cwd(), "files", "peers", found.peers));
+		fs.unlinkSync(path.join(process.cwd(), "files", "boot", found.boot));
+
 
 		return res.json({result: "success"});
 
