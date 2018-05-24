@@ -55,9 +55,9 @@ node server.js
 
 ```
 
-## boot sequence operations
+## Boot sequence operations
 
-As part of a network description file, the boot object defines the eosio boot sequence in order to launch the network. All actions are sorted by ascending index first, and then the eosconfig script will execute all commands sequentially.
+As part of a network description file, the boot object defines the eosio boot sequence to be executed in order to launch the network. All actions are sorted by ascending index first, and then the eosconfig script will execute all commands sequentially.
 
 
 commands:

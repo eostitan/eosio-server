@@ -34,7 +34,7 @@
 			{
 				"index": 4,
 				"command": "push_action",
-				"account": "eosio.token",
+				"signature": "eosio.token",
 				"contract": "eosio.token",
 				"action": "create",
 				"params": [
@@ -45,7 +45,7 @@
 			{
 				"index": 5,
 				"command": "push_action",
-				"account": "eosio",
+				"signature": "eosio",
 				"contract": "eosio.token",
 				"action": "issue",
 				"params": [
