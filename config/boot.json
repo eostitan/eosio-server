@@ -10,7 +10,8 @@
 				"account": "eosio",
 				"arguments": [
 					"-e",
-					"-p eosio"
+					"-p",
+					"eosio"
 				]
 			},
 			{
