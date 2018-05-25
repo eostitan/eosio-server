@@ -7,7 +7,11 @@ var cjson = require("canonicaljson");
 
 var serverConfig;
 
-if (fs.existsSync("./config/server.json")) serverConfig = require("./config/server.json");
+if (fs.existsSync("./config/server.json")) 
+	serverConfig = require("./config/server.json");
+else 
+	serverConfig = {};
+
 if (!fs.existsSync("./config/networks.json")) fs.writeFileSync("./config/networks.json", JSON.stringify([]));
 
 var config = require("./config/networks.json");
@@ -62,6 +66,7 @@ function server(){
 	var authenticate = function(req){
 
 		if (!req.body.signature) {console.log("Signature not provided."); return false};
+		if (!req.body.network_name) {console.log("Network name not provided."); return false};
 
 		let message = req.body;
 		let signature = req.body.signature;
@@ -70,11 +75,11 @@ function server(){
 
 		try{
 
-			let verification = eos.verify(signature, cjson.stringify(message), serverConfig.public_key);
+			let verification = eos.verify(signature, cjson.stringify(message), serverConfig[req.body.network_name].public_key);
 
 			console.log("message:", message);
 			console.log("signature:", signature);
-			console.log("serverConfig.public_key:", serverConfig.public_key);
+			console.log("serverConfig[req.body.network_name].public_key:", serverConfig[req.body.network_name].public_key);
 			console.log("verification:", verification);
 
 			return verification;
@@ -159,6 +164,7 @@ function server(){
 		if (!authenticate(req)) return res.json({error: "unauthorized, must supply valid signature"});
 
 		if (!req.body.network_name) return res.json({error: "must supply post parameter network_name"});
+		if (!req.body.initial_key) return res.json({error: "must supply post parameter initial_key"});
 		if (!req.body.tag) return res.json({error: "must supply post parameter tag"});
 		if (!req.body.genesis) return res.json({error: "must supply post parameter genesis"});
 
@@ -167,10 +173,14 @@ function server(){
 		let peers_file = path.join(process.cwd(), "files", "peers", req.body.network_name + ".json");
 		let genesis_file = path.join(process.cwd(), "files", "genesis", req.body.network_name + ".json");
 		let boot_file = path.join(process.cwd(), "files", "boot", req.body.network_name + ".json");
+		let config_file = path.join(process.cwd(), "config", "server.json");
 
 		fs.writeFileSync(peers_file, JSON.stringify([], null, 2));
 		fs.writeFileSync(genesis_file, JSON.stringify(req.body.genesis, null, 2));
 		fs.writeFileSync(boot_file, JSON.stringify(getBoot(req.body.tag), null, 2));
+		fs.writeFileSync(config_file, JSON.stringify(serverConfig, null, 2));
+
+		serverConfig[req.body.network_name] = req.body.initial_key;
 
 		var configEntry = {
 			"name":req.body.network_name,
@@ -236,5 +246,4 @@ function server(){
 
 }
 
-if (serverConfig) server();
-else console.log("No server configuration. Please create /config/server.json to enable");
+server();
