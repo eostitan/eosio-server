@@ -161,7 +161,7 @@ function server(){
 
 	app.post("/addnetwork", function(req, res){
 
-		if (!authenticate(req)) return res.json({error: "unauthorized, must supply valid signature"});
+		//if (!authenticate(req)) return res.json({error: "unauthorized, must supply valid signature"});
 
 		if (!req.body.network_name) return res.json({error: "must supply post parameter network_name"});
 		if (!req.body.initial_key) return res.json({error: "must supply post parameter initial_key"});
@@ -170,6 +170,8 @@ function server(){
 
 		if (config.find(function(n){return n.name == req.body.network_name})) return res.json({error: "network already exists"});
 
+		serverConfig[req.body.network_name] = req.body.initial_key;
+		
 		let peers_file = path.join(process.cwd(), "files", "peers", req.body.network_name + ".json");
 		let genesis_file = path.join(process.cwd(), "files", "genesis", req.body.network_name + ".json");
 		let boot_file = path.join(process.cwd(), "files", "boot", req.body.network_name + ".json");
@@ -179,8 +181,6 @@ function server(){
 		fs.writeFileSync(genesis_file, JSON.stringify(req.body.genesis, null, 2));
 		fs.writeFileSync(boot_file, JSON.stringify(getBoot(req.body.tag), null, 2));
 		fs.writeFileSync(config_file, JSON.stringify(serverConfig, null, 2));
-
-		serverConfig[req.body.network_name] = req.body.initial_key;
 
 		var configEntry = {
 			"name":req.body.network_name,
