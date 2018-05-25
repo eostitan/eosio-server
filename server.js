@@ -23,7 +23,7 @@ function server(){
 
 	app.use(bodyParser.json({ type: 'application/json' }))
 
-	var port = 3000;
+	var port = 9273;
 
 	var getBoot = function(tag){
 
