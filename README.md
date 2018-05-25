@@ -9,43 +9,11 @@ It is meant to interface with eosio-script in facilitating easy deployment of eo
 
 *eosio-server* provides a number of public and private functions. Public functions do not require any signature and are thus available to everyone. Private function calls are however used to configure the server, and require a signature by the private key associated to the public key held by the server to affect configuration.
 
-Public REST API methods:
-
-
-
-Private REST API methods:
-
-
-Signing Private REST API methods calls (nodejs example):
-
-```
-var eos = require("eosjs-ecc");
-var cjson = require("canonicaljson");
-
-var myObject = {
-	"some":"values"
-}
-
-var signature = eos.sign(cjson.stringify(myObject), "5HtJigwy65vb2kAMrjGFt8zG3PNrfKEHmVXr9HbatJyfabAkPKv");
-
-
-```
-
 ## eosio-server configuration:
 
 ```
 git clone https://github.com/CryptoMechanics/eosio-server
 cd eosio-server
-```
-
-At this point, a server.json file should be created in /config and configured with a public key obtained by running node genkey.js client on an instance of [eosio-client](https://github.com/CryptoMechanics/eosio-client).
-
-Content of server.json file:
-
-```
-{
-	"public_key":"EOS6kwbXRKm7sSCEgBSELKcvdzsvyFJ16ombFLEZZEZLXo1hZFiBu"
-}
 ```
 
 ## To start server:
@@ -182,4 +150,25 @@ Example:
 Equivalent to : 
 ```
 cleos push action eosio.token issue '[ "eosio", "1000000000.0000 SYS", "memo" ]' -p eosio
+```
+
+EOSIO-Server Public REST API methods:
+
+
+EOSIO-Server Private REST API methods:
+
+
+Signing Private REST API methods calls (nodejs example):
+
+```
+var eos = require("eosjs-ecc");
+var cjson = require("canonicaljson");
+
+var myObject = {
+	"some":"values"
+}
+
+var signature = eos.sign(cjson.stringify(myObject), "5HtJigwy65vb2kAMrjGFt8zG3PNrfKEHmVXr9HbatJyfabAkPKv");
+
+
 ```
