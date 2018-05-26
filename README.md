@@ -1,7 +1,7 @@
 # eosio-server
 
 
-*eosio-server* is a standalone server that provides information about a number of testnets and that can be configured remotely by an instance of [eosio-client](https://github.com/CryptoMechanics/eosio-client).
+*eosio-server* is a standalone server that provides information about a number of testnets and that can be configured remotely by calling its API methods.
 
 It maintains a list of networks with their respective genesis configuration, version and a list of peers to be used for sharing blockchain data. Over time, eosio-server will also be expanded to operate a faucet and automatically send tokens to connecting nodes, as well as indexed information on the blockchain, automated registration as apointed block producers candidates, etc.
 
@@ -23,6 +23,21 @@ node server.js
 
 ```
 
+## Signing Private REST API methods calls (nodejs example):
+
+```
+var eos = require("eosjs-ecc");
+var cjson = require("canonicaljson");
+
+var myObject = {
+	"some":"values"
+}
+
+var signature = eos.sign(cjson.stringify(myObject), "5HtJigwy65vb2kAMrjGFt8zG3PNrfKEHmVXr9HbatJyfabAkPKv");
+
+```
+
+
 ## Boot sequence operations
 
 As part of a network description file, the boot object defines the eosio boot sequence to be executed in order to launch the network. All actions are sorted by ascending index first, and then the eosconfig script will execute all commands sequentially.
@@ -37,15 +52,14 @@ Runs nodeos with specified arguments.
 *arguments* 
 List of arguments to pass to nodeos
 
-
 Example:
 ```
-			{
-				"index": 0,
-				"command": "nodeos",
-				"account": "eosio",
-				"arguments": "-e -p"
-			},
+{
+	"index": 0,
+	"command": "nodeos",
+	"account": "eosio",
+	"arguments": "-e -p"
+}
 ```
 
 Equivalent to : 
@@ -63,18 +77,17 @@ Creator account (ie: eosio)
 *keys* 
 Array of contracts to be created
 
-
 Example:
 ```
-			{
-				"index": 1,
-				"command": "generate_contract_keys",
-				"account": "eosio",
-				"keys": [
-					{"name":"eosio.token"},
-					{"name":"eosio.msig"}
-				]
-			}
+{
+	"index": 1,
+	"command": "generate_contract_keys",
+	"account": "eosio",
+	"keys": [
+		{"name":"eosio.token"},
+		{"name":"eosio.msig"}
+	]
+}
 ```
 
 Equivalent to : 
@@ -101,12 +114,12 @@ Name of the folder containing the .ABI and .WAST contract, assuming contracts ar
 
 Example:
 ```
-			{
-				"index": 2,
-				"command": "set_contract",
-				"name": "eosio.token",
-				"path": "eosio.token"
-			}
+{
+	"index": 2,
+	"command": "set_contract",
+	"name": "eosio.token",
+	"path": "eosio.token"
+}
 ```
 
 Equivalent to : 
@@ -132,18 +145,18 @@ Array of parameters that should be passed to the contract function
 
 Example:
 ```
-		{
-			"index": 5,
-			"command": "push_action",
-			"signature": "eosio",
-			"contract": "eosio.token",
-			"action": "issue",
-			"params": [
-				"eosio",
-				"1000000000.0000 SYS", 
-				"memo"
-			]
-		}
+{
+	"index": 5,
+	"command": "push_action",
+	"signature": "eosio",
+	"contract": "eosio.token",
+	"action": "issue",
+	"params": [
+		"eosio",
+		"1000000000.0000 SYS", 
+		"memo"
+	]
+}
 ```
 
 
@@ -185,19 +198,3 @@ cleos push action eosio.token issue '[ "eosio", "1000000000.0000 SYS", "memo" ]'
 
 ###	post /addpeer 
 	Add a peer to a network for which you own the initial key
-
-## Signing Private REST API methods calls (nodejs example):
-
-```
-var eos = require("eosjs-ecc");
-var cjson = require("canonicaljson");
-
-var myObject = {
-	"some":"values"
-}
-
-var signature = eos.sign(cjson.stringify(myObject), "5HtJigwy65vb2kAMrjGFt8zG3PNrfKEHmVXr9HbatJyfabAkPKv");
-
-
-```
-

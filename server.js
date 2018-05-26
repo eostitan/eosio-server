@@ -178,7 +178,7 @@ function server(){
 		let config_file = path.join(process.cwd(), "config", "server.json");
 
 		fs.writeFileSync(peers_file, JSON.stringify([], null, 2));
-		fs.writeFileSync(genesis_file, JSON.stringify(req.body.genesis, null, 2));
+		fs.writeFileSync(genesis_file, JSON.stringify(req.body.genesis, null, 2)); //todo: desambiguate initial key
 		fs.writeFileSync(boot_file, JSON.stringify(getBoot(req.body.tag), null, 2));
 		fs.writeFileSync(config_file, JSON.stringify(serverConfig, null, 2));
 
