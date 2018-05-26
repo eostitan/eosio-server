@@ -11,8 +11,7 @@
 				"arguments": [
 					"-e",
 					"-p",
-					"eosio",
-					"--genesis-json"
+					"eosio"
 				]
 			},
 			{
@@ -79,8 +78,7 @@
 				"arguments": [
 					"-e",
 					"-p",
-					"eosio",
-					"--genesis-json"
+					"eosio"
 				]
 			},
 			{
