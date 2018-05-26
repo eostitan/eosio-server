@@ -35,6 +35,8 @@ var myObject = {
 
 var signature = eos.sign(cjson.stringify(myObject), "5HtJigwy65vb2kAMrjGFt8zG3PNrfKEHmVXr9HbatJyfabAkPKv");
 
+myObject.signature = signature;
+
 ```
 
 
