@@ -52,7 +52,7 @@ var signature = eos.sign(cjson.stringify(myObject), "5HtJigwy65vb2kAMrjGFt8zG3PN
 ###	post /verify 
 	Verify authenticity of a message based on public key and signature
 
-	TODO:
+## TODO:
 
 ###	post /registerAccount
 	Register for account creation
