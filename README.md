@@ -38,6 +38,17 @@ var signature = eos.sign(cjson.stringify(myObject), "5HtJigwy65vb2kAMrjGFt8zG3PN
 ```
 
 
+## EOSIO-Server Private REST API methods:
+
+###	post /removenetwork 
+	Remove a network for which you own the initial key
+
+###	post /removepeer 
+	Remove a peer from the discovery file of a network for which you own the initial key
+
+###	post /addpeer 
+	Add a peer to a network for which you own the initial key
+
 ## EOSIO-Server Public REST API methods:
 
 ###	get /networks/:network
@@ -52,7 +63,7 @@ var signature = eos.sign(cjson.stringify(myObject), "5HtJigwy65vb2kAMrjGFt8zG3PN
 ###	post /verify 
 	Verify authenticity of a message based on public key and signature
 
-## TODO:
+## TODO (not implemented yet):
 
 ###	post /registerAccount
 	Register for account creation
@@ -60,17 +71,6 @@ var signature = eos.sign(cjson.stringify(myObject), "5HtJigwy65vb2kAMrjGFt8zG3PN
 ###	post /registerAsPeer
 	Register yourself as a peer to be listed in the discovery file
 
-
-## EOSIO-Server Private REST API methods:
-
-###	post /removenetwork 
-	Remove a network for which you own the initial key
-
-###	post /removepeer 
-	Remove a peer from the discovery file of a network for which you own the initial key
-
-###	post /addpeer 
-	Add a peer to a network for which you own the initial key
 
 ## Boot sequence operations
 
