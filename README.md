@@ -28,6 +28,7 @@ node server.js
 ```
 var eos = require("eosjs-ecc");
 var cjson = require("canonicaljson");
+var request = require("request");
 
 let addPeerData = {
 	"network_name": "my_testnet",
@@ -40,7 +41,7 @@ addPeerData.signature = signature;
 
 request({url: 'http://discovery.eostitan.com/addpeer', method: 'POST', json:addPeerData}, function(err, res, body){
 	//callback
-	
+
 });
 
 ```
