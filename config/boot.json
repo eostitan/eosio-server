@@ -65,5 +65,132 @@
 				"path": "eosio.system"
 			}
 		]
+	},
+	{
+		"tag":"dawn-v4.2.0",
+		"configuration": "base_testnet",
+		"description": "https://github.com/EOSIO/eos/wiki/Tutorial-Bios-Boot-Sequence",
+		"sequence": [
+			{
+				"index": 0,
+				"command": "nodeos",
+				"account": "eosio",
+				"arguments": [
+					"-e",
+					"-p",
+					"eosio"
+				]
+			},
+			{
+				"index": 1,
+				"command": "generate_contract_keys",
+				"account": "eosio",
+				"keys": [
+					{"name":"eosio.bpay"},
+					{"name":"eosio.msig"},
+					{"name":"eosio.names"},
+					{"name":"eosio.ram"},
+					{"name":"eosio.ramfee"},
+					{"name":"eosio.saving"},
+					{"name":"eosio.stake"},
+					{"name":"eosio.token"},
+					{"name":"eosio.vpay"}
+				]
+			},
+			{
+				"index": 2,
+				"command": "set_contract",
+				"name": "eosio.bpay",
+				"path": "eosio.bpay"
+			},
+			{
+				"index": 3,
+				"command": "set_contract",
+				"name": "eosio.msig",
+				"path": "eosio.msig"
+			},
+			{
+				"index": 4,
+				"command": "set_contract",
+				"name": "eosio.names",
+				"path": "eosio.names"
+			},
+			{
+				"index": 5,
+				"command": "set_contract",
+				"name": "eosio.ram",
+				"path": "eosio.ram"
+			},
+			{
+				"index": 6,
+				"command": "set_contract",
+				"name": "eosio.ramfee",
+				"path": "eosio.ramfee"
+			},
+			{
+				"index": 7,
+				"command": "set_contract",
+				"name": "eosio.saving",
+				"path": "eosio.saving"
+			},
+			{
+				"index": 8,
+				"command": "set_contract",
+				"name": "eosio.stake",
+				"path": "eosio.stake"
+			},
+			{
+				"index": 9,
+				"command": "set_contract",
+				"name": "eosio.token",
+				"path": "eosio.token"
+			},
+			{
+				"index": 10,
+				"command": "set_contract",
+				"name": "eosio.vpay",
+				"path": "eosio.vpay"
+			},
+			{
+				"index": 11,
+				"command": "push_action",
+				"signature": "eosio.token",
+				"contract": "eosio.token",
+				"action": "create",
+				"params": [
+					"eosio",
+					"10000000000.0000 SYS"
+				]
+			},
+			{
+				"index": 12,
+				"command": "push_action",
+				"signature": "eosio",
+				"contract": "eosio.token",
+				"action": "issue",
+				"params": [
+					"eosio",
+					"1000000000.0000 SYS", 
+					"memo"
+				]
+			},
+			{
+				"index": 13,
+				"command": "set_contract",
+				"name": "eosio",
+				"path": "eosio.system"
+			},
+			{
+				"index": 14,
+				"command": "push_action",
+				"signature": "eosio@active",
+				"contract": "eosio",
+				"action": "setpriv",
+				"params": [
+					"eosio.msig",
+					1
+				]
+			},
+		]
 	}
 ]
