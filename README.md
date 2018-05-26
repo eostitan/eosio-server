@@ -154,36 +154,36 @@ cleos push action eosio.token issue '[ "eosio", "1000000000.0000 SYS", "memo" ]'
 
 ## EOSIO-Server Public REST API methods:
 
-	get /networks/:network
+###	get /networks/:network
 	Get information on a single network
 
-	get /listnetworks 
+###	get /listnetworks 
 	Get a summary of all public networks
 
-	post /addnetwork
+###	post /addnetwork
 	Add a new network to the discovery server
 
-	post /verify 
+###	post /verify 
 	Verify authenticity of a message based on public key and signature
 
 	TODO:
 
-	post /registerAccount
+###	post /registerAccount
 	Register for account creation
 
-	post /registerAsPeer
+###	post /registerAsPeer
 	Register yourself as a peer to be listed in the discovery file
 
 
 ## EOSIO-Server Private REST API methods:
 
-	post /removenetwork 
+###	post /removenetwork 
 	Remove a network for which you own the initial key
 
-	post /removepeer 
+###	post /removepeer 
 	Remove a peer from the discovery file of a network for which you own the initial key
 
-	post /addpeer 
+###	post /addpeer 
 	Add a peer to a network for which you own the initial key
 
 ## Signing Private REST API methods calls (nodejs example):
