@@ -29,13 +29,19 @@ node server.js
 var eos = require("eosjs-ecc");
 var cjson = require("canonicaljson");
 
-var myObject = {
-	"some":"values"
+let addPeerData = {
+	"network_name": "my_testnet",
+	"peer": "node1.eostitan.com:8888"
 }
 
-var signature = eos.sign(cjson.stringify(myObject), "5HtJigwy65vb2kAMrjGFt8zG3PNrfKEHmVXr9HbatJyfabAkPKv");
+var signature = eos.sign(cjson.stringify(addPeerData), "5HtJigwy65vb2kAMrjGFt8zG3PNrfKEHmVXr9HbatJyfabAkPKv");
 
-myObject.signature = signature;
+addPeerData.signature = signature;
+
+request({url: 'http://discovery.eostitan.com/addpeer', method: 'POST', json:addPeerData}, function(err, res, body){
+	//callback
+	
+});
 
 ```
 
