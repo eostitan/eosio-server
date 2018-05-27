@@ -127,7 +127,7 @@ function server(){
 		let peers_file = path.join(process.cwd(), "files", "peers", network.peers);
 		let peers = JSON.parse(fs.readFileSync(peers_file, "utf8"));
 
-		console.log("peers", peers);
+		//console.log("peers", peers);
 
 		if (peers.find(function(p){return p == req.body.peer})) return res.json({error: "peer already exists"});
 
@@ -236,7 +236,7 @@ function server(){
 	app.post("/verify", function(req, res){
 
 		console.log("verify req.body", req.body);
-		
+
 		if (!req.body.public_key) return res.json({error: "must supply post parameter public_key"});
 		if (!req.body.message) return res.json({error: "must supply post parameter message"});
 		if (!req.body.signature) return res.json({error: "must supply post parameter signature"});
