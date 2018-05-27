@@ -114,7 +114,7 @@ function server(){
 
 	app.post("/addpeer", function(req, res){
 
-		console.log("addpeer req.body", req);
+		console.log("addpeer req.body", req.body);
 
 		if (!authenticate(req)) return res.json({error: "unauthorized, must supply valid signature"});
 
