@@ -86,6 +86,7 @@ function server(){
 
 		}
 		catch (ex){
+			console.log("authenticated failed", ex);
 			return false;
 		}
 
