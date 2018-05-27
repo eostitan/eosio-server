@@ -100,59 +100,17 @@
 			{
 				"index": 2,
 				"command": "set_contract",
-				"name": "eosio.bpay",
-				"path": "eosio.bpay"
-			},
-			{
-				"index": 3,
-				"command": "set_contract",
 				"name": "eosio.msig",
 				"path": "eosio.msig"
 			},
 			{
 				"index": 4,
 				"command": "set_contract",
-				"name": "eosio.names",
-				"path": "eosio.names"
-			},
-			{
-				"index": 5,
-				"command": "set_contract",
-				"name": "eosio.ram",
-				"path": "eosio.ram"
-			},
-			{
-				"index": 6,
-				"command": "set_contract",
-				"name": "eosio.ramfee",
-				"path": "eosio.ramfee"
-			},
-			{
-				"index": 7,
-				"command": "set_contract",
-				"name": "eosio.saving",
-				"path": "eosio.saving"
-			},
-			{
-				"index": 8,
-				"command": "set_contract",
-				"name": "eosio.stake",
-				"path": "eosio.stake"
-			},
-			{
-				"index": 9,
-				"command": "set_contract",
 				"name": "eosio.token",
 				"path": "eosio.token"
 			},
 			{
-				"index": 10,
-				"command": "set_contract",
-				"name": "eosio.vpay",
-				"path": "eosio.vpay"
-			},
-			{
-				"index": 11,
+				"index": 5,
 				"command": "push_action",
 				"signature": "eosio.token",
 				"contract": "eosio.token",
@@ -163,7 +121,7 @@
 				]
 			},
 			{
-				"index": 12,
+				"index": 6,
 				"command": "push_action",
 				"signature": "eosio",
 				"contract": "eosio.token",
@@ -175,13 +133,13 @@
 				]
 			},
 			{
-				"index": 13,
+				"index": 7,
 				"command": "set_contract",
 				"name": "eosio",
 				"path": "eosio.system"
 			},
 			{
-				"index": 14,
+				"index": 8,
 				"command": "push_action",
 				"signature": "eosio@active",
 				"contract": "eosio",
