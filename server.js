@@ -50,7 +50,7 @@ function server(){
 			newNetwork.peers = JSON.parse(fs.readFileSync(peers_file, "utf8"));
 			newNetwork.boot = JSON.parse(fs.readFileSync(boot_file, "utf8"));
 
-			console.log("newNetwork", newNetwork);
+			//console.log("newNetwork", newNetwork);
 
 		}
 		else {
@@ -93,12 +93,12 @@ function server(){
 	}
 
 	app.get('/networks/:network', function(req, res) {
+			
+		console.log("received request for :", req.params.network);
 
 		let found = config.find(function(n){return n.name == req.params.network});
 
 		if (found){
-			
-			console.log("NETWORK:", found);
 
 			return res.json({network:extendNetwork(found, true)});
 		}
@@ -107,6 +107,8 @@ function server(){
 	});
 
 	app.get('/listnetworks', function(req, res) {
+
+		console.log("received request for list networks");
 
 		return res.json({networks:config.map(function(n){return extendNetwork(n, false)})});
 
@@ -139,6 +141,8 @@ function server(){
 
 	app.post("/removepeer", function(req, res){
 
+		console.log("removepeer req.body", req.body);
+
 		if (!authenticate(req)) return res.json({error: "unauthorized, must supply valid signature"});
 
 		if (!req.body.peer) return res.json({error: "must supply post parameter peer"});
@@ -163,6 +167,8 @@ function server(){
 	});
 
 	app.post("/addnetwork", function(req, res){
+
+		console.log("addnetwork req.body", req.body);
 
 		//if (!authenticate(req)) return res.json({error: "unauthorized, must supply valid signature"});
 
@@ -203,6 +209,8 @@ function server(){
 
 	app.post("/removenetwork", function(req, res){
 
+		console.log("removenetwork req.body", req.body);
+
 		if (!authenticate(req)) return res.json({error: "unauthorized, must supply valid signature"});
 
 		if (!req.body.network_name) return res.json({error: "must supply post parameter network_name"});
@@ -227,6 +235,8 @@ function server(){
 
 	app.post("/verify", function(req, res){
 
+		console.log("verify req.body", req.body);
+		
 		if (!req.body.public_key) return res.json({error: "must supply post parameter public_key"});
 		if (!req.body.message) return res.json({error: "must supply post parameter message"});
 		if (!req.body.signature) return res.json({error: "must supply post parameter signature"});
