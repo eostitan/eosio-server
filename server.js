@@ -75,11 +75,11 @@ function server(){
 
 		try{
 
-			let verification = eos.verify(signature, cjson.stringify(message), serverConfig[req.body.network_name].public_key);
+			let verification = eos.verify(signature, cjson.stringify(message), serverConfig[req.body.network_name]);
 
 			console.log("message:", message);
 			console.log("signature:", signature);
-			console.log("serverConfig[req.body.network_name].public_key:", serverConfig[req.body.network_name].public_key);
+			console.log("serverConfig[req.body.network_name]:", serverConfig[req.body.network_name]);
 			console.log("verification:", verification);
 
 			return verification;
