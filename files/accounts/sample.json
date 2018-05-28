@@ -1,0 +1,17 @@
+[
+	{
+		"network_name": "poseidon",
+		"accounts": [
+			{
+				"name":"bobbobbobbo1",
+				"key":"EOS5GF5U7J7VRDVEe5nbnd5eHj6a6DJvtL3oJaxqLciozuS4Tu53K",
+				"created":true
+			},
+			{
+				"name":"bobbobbobbo2",
+				"key":"EOS7bCf4rLybB6CgmcLxqWWn6xTbvwtddHRWw1E5YUpDXt2Xpk845",
+				"created":false
+			}
+		]
+	}
+]
