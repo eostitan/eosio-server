@@ -26,7 +26,7 @@ function registerAccount(acct, cb){
 
   console.log("Running : cleos " + args.join(" "));
 
-	/*var p = spawn("cleos", args);
+	var p = spawn("cleos", args);
 
 	p.stdout.setEncoding('utf8');
 	p.stdout.on('data', (chunk) => {
@@ -44,9 +44,9 @@ function registerAccount(acct, cb){
 
 		return cb();
 
-	});*/
+	});
 
-	return cb();
+	//return cb();
 
 }
 
