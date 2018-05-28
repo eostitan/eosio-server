@@ -20,6 +20,7 @@
     "body-parser": "^1.18.3",
     "express": "*",
     "eosjs-ecc": "*",
-    "canonicaljson": "*"
+    "canonicaljson": "*",
+    "async":"*"
   }
 }
