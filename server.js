@@ -51,7 +51,7 @@ function server(){
 			newNetwork.boot = JSON.parse(fs.readFileSync(boot_file, "utf8"));
 
 			delete newNetwork.accounts;
-			
+
 			//console.log("newNetwork", newNetwork);
 
 		}
@@ -153,7 +153,7 @@ function server(){
 		if (!req.body.network_name) return res.json({error: "must supply post parameter network_name"});
 
 		let network = config.find(function(n){return n.name == req.body.network_name});
-		let accounts_file = path.join(process.cwd(), "files", "peers", network.accounts);
+		let accounts_file = path.join(process.cwd(), "files", "accounts", network.accounts);
 		let accounts = JSON.parse(fs.readFileSync(accounts_file, "utf8"));
 
 		//console.log("peers", peers);
