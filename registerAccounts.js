@@ -20,9 +20,9 @@ function registerAccount(acct, cb){
   args.push(name);
   args.push(key);
   args.push("--stake-net");
-  args.push('"100000.0000 SYS"');
+  args.push('100000.0000 SYS');
   args.push("--stake-cpu");
-  args.push('"100000.0000 SYS"');
+  args.push('100000.0000 SYS');
 
   console.log("Running : cleos " + args.join(" "));
 
