@@ -50,11 +50,14 @@ function server(){
 			newNetwork.peers = JSON.parse(fs.readFileSync(peers_file, "utf8"));
 			newNetwork.boot = JSON.parse(fs.readFileSync(boot_file, "utf8"));
 
+			delete newNetwork.accounts;
+			
 			//console.log("newNetwork", newNetwork);
 
 		}
 		else {
 			delete newNetwork.genesis;
+			delete newNetwork.accounts;
 			delete newNetwork.peers;
 			delete newNetwork.boot;
 		}
@@ -139,6 +142,39 @@ function server(){
 
 	});
 
+	app.post("/registerAccount", function(req, res){
+
+		console.log("registerAccount req.body", req.body);
+
+		//if (!authenticate(req)) return res.json({error: "unauthorized, must supply valid signature"});
+
+		if (!req.body.account_name) return res.json({error: "must supply post parameter account_name"});
+		if (!req.body.public_key) return res.json({error: "must supply post parameter public_key"});
+		if (!req.body.network_name) return res.json({error: "must supply post parameter network_name"});
+
+		let network = config.find(function(n){return n.name == req.body.network_name});
+		let accounts_file = path.join(process.cwd(), "files", "peers", network.accounts);
+		let accounts = JSON.parse(fs.readFileSync(accounts_file, "utf8"));
+
+		//console.log("peers", peers);
+
+		if (accounts.find(function(p){return p == req.body.name})) return res.json({error: "account already exists"});
+
+		let account = {
+			name:req.body.account_name,
+			key:req.body.public_key,
+			created:false
+		}
+
+		accounts.push(account);
+		
+		fs.writeFileSync(accounts_file, JSON.stringify(accounts, null, 2));
+
+		return res.json({result: "success"});
+
+	});
+
+
 	app.post("/removepeer", function(req, res){
 
 		console.log("removepeer req.body", req.body);
@@ -184,16 +220,19 @@ function server(){
 		let peers_file = path.join(process.cwd(), "files", "peers", req.body.network_name + ".json");
 		let genesis_file = path.join(process.cwd(), "files", "genesis", req.body.network_name + ".json");
 		let boot_file = path.join(process.cwd(), "files", "boot", req.body.network_name + ".json");
+		let accounts_file = path.join(process.cwd(), "files", "accounts", req.body.network_name + ".json");
 		let config_file = path.join(process.cwd(), "config", "server.json");
 
 		fs.writeFileSync(peers_file, JSON.stringify([], null, 2));
 		fs.writeFileSync(genesis_file, JSON.stringify(req.body.genesis, null, 2)); //todo: desambiguate initial key
+		fs.writeFileSync(accounts_file, JSON.stringify([], null, 2)); //todo: desambiguate initial key
 		fs.writeFileSync(boot_file, JSON.stringify(getBoot(req.body.tag), null, 2));
 		fs.writeFileSync(config_file, JSON.stringify(serverConfig, null, 2));
 
 		var configEntry = {
 			"name":req.body.network_name,
 			"genesis":req.body.network_name + ".json",
+			"accounts":req.body.network_name + ".json",
 			"peers":req.body.network_name + ".json",
 			"boot":req.body.network_name + ".json",
 			"tag": req.body.tag
