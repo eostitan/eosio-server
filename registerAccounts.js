@@ -67,7 +67,7 @@ if (process.argv.length>=4){
 
 
 	exec('cleos wallet unlock --password ' + walletKey, (e, stdout, stderr)=> {
-		if (!stderr){
+		if (!stderr || stderr.includes("Wallet is already unlocked")){
 					
 			let processed = [];
 
