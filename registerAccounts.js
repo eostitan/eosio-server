@@ -56,12 +56,17 @@ if (process.argv.length>=3){
 
 	let accounts_file = path.join(process.cwd(), "files", "accounts", process.argv[2] + ".json");
 	let accounts = JSON.parse(fs.readFileSync(accounts_file, "utf8"));
+	let emptyAccounts = JSON.stringify([], null, 2);
+	let processed_file	= path.join(process.cwd(), "files", "accounts", process.argv[2] + ".json.processed");
 
-	let unreg_accts = accounts.filter(function(a){return a.created == false});
+	fs.appendFileSync(processed, accounts);
+	fs.writeFileSync(accounts_file, emptyAccounts);
+
+/*	let unreg_accts = accounts.filter(function(a){return a.created == false});
 
 	console.log("unregisterd accounts:", JSON.stringify(unreg_accts, null, 2));
-
-	async.eachSeries(unreg_accts, registerAccount, function(err,res){
+*/
+	async.eachSeries(accounts, registerAccount, function(err,res){
 
 		console.log("Completed registration.");
 
