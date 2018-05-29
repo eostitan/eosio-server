@@ -9,12 +9,12 @@ var { exec } = require("child_process");
 var serverConfig;
 var localConfig;
 
-if (fs.existsSync("./config/server.json")) 
+if (fs.existsSync("./config/server.json")==true) 
 	serverConfig = require("./config/server.json");
 else 
 	serverConfig = {};
 
-if (fs.existsSync("./config/local.json")) 
+if (fs.existsSync("./config/local.json")==true) 
 	localConfig = require("./config/local.json");
 else 
 	localConfig = {};
