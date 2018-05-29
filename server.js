@@ -311,7 +311,7 @@ function server(){
 		console.log("Checking for registrations...")
 		if (localConfig.networkName && localConfig.passphrase){
 			console.log("running script")
-			exec("node registerAccount.js " + networkName + " " + passphrase);
+			exec("node registerAccount.js " + localConfig.networkName + " " + localConfig.passphrase);
 		}
 	}
 
