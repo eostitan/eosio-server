@@ -56,7 +56,7 @@ function registerAccount(acct, cb){
 
 if (process.argv.length>=4){
 
-	console.log("Registering accounts for network:", process.argv);
+	//console.log("Registering accounts for network:", process.argv);
 
 	let accounts_file = path.join(process.cwd(), "files", "accounts", process.argv[2] + ".json");
 	let accounts = JSON.parse(fs.readFileSync(accounts_file, "utf8"));
@@ -84,7 +84,7 @@ if (process.argv.length>=4){
 		*/
 
 			async.eachSeries(accounts, registerAccount, function(err,res){
-				console.log("Completed registration.");
+				//console.log("Completed registration.");
 			});
 
 		}
