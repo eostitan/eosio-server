@@ -28,7 +28,7 @@ function registerAccount(acct, cb){
 
   console.log("Running : cleos " + args.join(" "));
 
-	exec('cleos wallet unlock --password ' + walletKey, ()=> {cb();});
+	//exec('cleos wallet unlock --password ' + walletKey, (e, stdout, stderr)=> {cb();});
 
 	var p = spawn("cleos", args);
 
@@ -66,7 +66,7 @@ if (process.argv.length>=4){
 	walletKey = process.argv[3];
 
 
-	exec('cleos wallet unlock --password ' + walletKey, ()=> {
+	exec('cleos wallet unlock --password ' + walletKey, (e, stdout, stderr)=> {
 		if (!stderr){
 					
 			let processed = [];
