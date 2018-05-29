@@ -72,13 +72,13 @@ request({url: 'http://discovery.eostitan.com/addpeer', method: 'POST', json:addP
 ###	post /verify 
 	Verify authenticity of a message based on public key and signature
 
-## TODO (not implemented yet):
-
 ###	post /registerAccount
 	Register for account creation
 
+## TODO (not implemented yet):
+
 ###	post /registerAsPeer
-	Register yourself as a peer to be listed in the discovery file
+	Register yourself as a peer to be listed in the discovery file of a network
 
 
 ## Boot sequence operations
