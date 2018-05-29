@@ -315,7 +315,7 @@ function server(){
 				
 				if (stdout) console.log("stdout", stdout);
 
-				if (stdout) console.log("stderr", stderr)
+				if (stderr) console.log("stderr", stderr)
 
 			});
 
