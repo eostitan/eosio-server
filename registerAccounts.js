@@ -59,7 +59,11 @@ if (process.argv.length>=3){
 	let emptyAccounts = JSON.stringify([], null, 2);
 	let processed_file	= path.join(process.cwd(), "files", "accounts", process.argv[2] + ".json.processed");
 
-	fs.appendFileSync(processed_file, accounts);
+	let processed = JSON.parse(fs.readFileSync(processed_file, "utf8"));
+
+	let newProcessed = processed.concat(accounts);
+
+	fs.writeFileSync(processed_file, JSON.stringify(newProcessed, null, 2));
 	fs.writeFileSync(accounts_file, emptyAccounts);
 
 /*	let unreg_accts = accounts.filter(function(a){return a.created == false});
