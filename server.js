@@ -5,6 +5,7 @@ var fs = require("fs");
 var eos = require("eosjs-ecc");
 var cjson = require("canonicaljson");
 var { fork } = require("child_process");
+var registerAccount = require("./registerAccount.js");
 
 var serverConfig;
 var localConfig;
@@ -311,10 +312,7 @@ function server(){
 		console.log("Checking for registrations...")
 		if (localConfig.networkName && localConfig.passphrase){
 			console.log("running script")
-			fork("registerAccount.js " + localConfig.networkName + " " + localConfig.passphrase, ()=>{
-				
-			});
-
+			registerAccount.execute(localConfig.networkName, localConfig.passphrase);
 		}
 	}
 

@@ -55,16 +55,14 @@ function registerAccount(acct, cb){
 
 }
 
-if (process.argv.length>=4){
+module.exports = function execute(network, key, cb){
 
-	//console.log("Registering accounts for network:", process.argv);
-
-	let accounts_file = path.join(process.cwd(), "files", "accounts", process.argv[2] + ".json");
+	let accounts_file = path.join(process.cwd(), "files", "accounts", network + ".json");
 	let accounts = JSON.parse(fs.readFileSync(accounts_file, "utf8"));
 	let emptyAccounts = JSON.stringify([], null, 2);
-	let processed_file	= path.join(process.cwd(), "files", "accounts", process.argv[2] + ".json.processed");
+	let processed_file	= path.join(process.cwd(), "files", "accounts", network + ".json.processed");
 
-	walletKey = process.argv[3];
+	walletKey = key;
 
 
 	exec('cleos wallet unlock --password ' + walletKey, (e, stdout, stderr)=> {
@@ -86,13 +84,22 @@ if (process.argv.length>=4){
 
 			async.eachSeries(accounts, registerAccount, function(err,res){
 				//console.log("Completed registration.");
+				return cb && cb();
 			});
 
 		}
 		else {
 			console.log("Cannot open wallet: ", stderr);
+			return cb && cb();
 		}
-	});
+	});	
+
+}
+
+if (process.argv.length>=4){
+
+	//console.log("Registering accounts for network:", process.argv);
+	execute(process.argv[2], process.argv[3]);
 
 }
 else console.log("Usage:", "node registerAccounts.js <my network> <wallet password>");
