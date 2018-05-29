@@ -46,6 +46,7 @@ function registerAccount(acct, cb){
 
 		console.log("push_action close CODE:", code);
 
+
 		return cb();
 
 	});
