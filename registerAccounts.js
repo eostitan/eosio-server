@@ -59,7 +59,8 @@ if (process.argv.length>=3){
 	let emptyAccounts = JSON.stringify([], null, 2);
 	let processed_file	= path.join(process.cwd(), "files", "accounts", process.argv[2] + ".json.processed");
 
-	let processed = JSON.parse(fs.readFileSync(processed_file, "utf8"));
+	if (existsSync(processed_file)) let processed = JSON.parse(fs.readFileSync(processed_file, "utf8"));
+	else let processed = [];
 
 	let newProcessed = processed.concat(accounts);
 
