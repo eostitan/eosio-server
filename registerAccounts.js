@@ -55,7 +55,7 @@ function registerAccount(acct, cb){
 
 if (process.argv.length>=4){
 
-	console.log("Registering accounts for network:", process.argv[2]);
+	console.log("Registering accounts for network:", process.argv);
 
 	let accounts_file = path.join(process.cwd(), "files", "accounts", process.argv[2] + ".json");
 	let accounts = JSON.parse(fs.readFileSync(accounts_file, "utf8"));
