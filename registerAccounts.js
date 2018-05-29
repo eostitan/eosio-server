@@ -55,7 +55,7 @@ function registerAccount(acct, cb){
 
 }
 
-module.exports = function execute(network, key, cb){
+exports.execute = function(network, key, cb){
 
 	let accounts_file = path.join(process.cwd(), "files", "accounts", network + ".json");
 	let accounts = JSON.parse(fs.readFileSync(accounts_file, "utf8"));
@@ -95,11 +95,3 @@ module.exports = function execute(network, key, cb){
 	});	
 
 }
-
-if (process.argv.length>=4){
-
-	//console.log("Registering accounts for network:", process.argv);
-	execute(process.argv[2], process.argv[3]);
-
-}
-else console.log("Usage:", "node registerAccounts.js <my network> <wallet password>");
