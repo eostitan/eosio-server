@@ -44,10 +44,36 @@ function registerAccount(acct, cb){
 
 	p.on('close', (code) => {
 
-		console.log("push_action close CODE:", code);
+		console.log("newaccount:", code);
 
+		//cleos transfer eosio superdeleg33 "10000000.0000 SYS"
+		let targs = [];
 
-		return cb();
+		targs.push("transfer");
+		targs.push("eosio");
+		targs.push(name);
+		targs.push("1000.0000 SYS");
+
+		var t = spawn("cleos", targs);
+
+			t.stdout.setEncoding('utf8');
+			t.stdout.on('data', (chunk) => {
+				console.log(chunk)
+			});
+
+			t.stderr.setEncoding('utf8');
+			t.stderr.on('data', (chunk) => {
+				console.log(chunk)
+			});
+
+			t.on('close', (code) => {
+
+				console.log("transfer:", code);
+
+				return cb();
+
+			});
+
 
 	});
 
