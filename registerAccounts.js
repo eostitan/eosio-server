@@ -3,6 +3,7 @@ var path = require("path");
 var async = require("async");
 const { spawn } = require('child_process');
 
+var walletKey;
 
 function registerAccount(acct, cb){
 
@@ -25,6 +26,8 @@ function registerAccount(acct, cb){
   args.push('1000.0000 SYS');
 
   console.log("Running : cleos " + args.join(" "));
+
+	exec('cleos wallet unlock --password ' + walletKey, ()=> {cb();});
 
 	var p = spawn("cleos", args);
 
@@ -50,7 +53,7 @@ function registerAccount(acct, cb){
 
 }
 
-if (process.argv.length>=3){
+if (process.argv.length>=4){
 
 	console.log("Registering accounts for network:", process.argv[2]);
 
@@ -59,23 +62,35 @@ if (process.argv.length>=3){
 	let emptyAccounts = JSON.stringify([], null, 2);
 	let processed_file	= path.join(process.cwd(), "files", "accounts", process.argv[2] + ".json.processed");
 
-	 let processed = [];
-	if (fs.existsSync(processed_file)) processed = JSON.parse(fs.readFileSync(processed_file, "utf8"));
+	walletKey = process.argv[3];
 
-	let newProcessed = processed.concat(accounts);
 
-	fs.writeFileSync(processed_file, JSON.stringify(newProcessed, null, 2));
-	fs.writeFileSync(accounts_file, emptyAccounts);
+	exec('cleos wallet unlock --password ' + walletKey, ()=> {
+		if (!stderr){
+					
+			let processed = [];
 
-/*	let unreg_accts = accounts.filter(function(a){return a.created == false});
+			if (fs.existsSync(processed_file)) processed = JSON.parse(fs.readFileSync(processed_file, "utf8"));
 
-	console.log("unregisterd accounts:", JSON.stringify(unreg_accts, null, 2));
-*/
-	async.eachSeries(accounts, registerAccount, function(err,res){
+			let newProcessed = processed.concat(accounts);
 
-		console.log("Completed registration.");
+			fs.writeFileSync(processed_file, JSON.stringify(newProcessed, null, 2));
+			fs.writeFileSync(accounts_file, emptyAccounts);
 
+		/*	let unreg_accts = accounts.filter(function(a){return a.created == false});
+
+			console.log("unregisterd accounts:", JSON.stringify(unreg_accts, null, 2));
+		*/
+
+			async.eachSeries(accounts, registerAccount, function(err,res){
+				console.log("Completed registration.");
+			});
+
+		}
+		else {
+			console.log("Cannot open wallet: ", stderr);
+		}
 	});
 
 }
-else console.log("Usage:", "node registerAccounts.js <my network>");
+else console.log("Usage:", "node registerAccounts.js <my network> <wallet password>");
