@@ -311,10 +311,10 @@ function server(){
 		console.log("Checking for registrations...")
 		if (localConfig.networkName && localConfig.passphrase){
 			console.log("running script")
-			exec("node registerAccount.js " + localConfig.networkName + " " + localConfig.passphrase, (e, stdout, stderr)=>{
+			exec("registerAccount.js " + localConfig.networkName + " " + localConfig.passphrase, (e, stdout, stderr)=>{
 				
 				if (stdout) console.log("stdout", stdout);
-				
+
 				if (stdout) console.log("stderr", stderr)
 
 			});
