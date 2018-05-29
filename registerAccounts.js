@@ -2,7 +2,7 @@ var fs = require("fs");
 var path = require("path");
 var async = require("async");
 const { spawn } = require('child_process');
-const { exect } = require('child_process');
+const { exec } = require('child_process');
 
 var walletKey;
 
