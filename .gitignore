@@ -2,3 +2,4 @@
 package-lock.json
 /config/server.json
 /config/networks.json
+/config/local.json

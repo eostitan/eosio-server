@@ -4,6 +4,7 @@ var path = require("path");
 var fs = require("fs");
 var eos = require("eosjs-ecc");
 var cjson = require("canonicaljson");
+var { exec } = require("child_process");
 
 var serverConfig;
 
@@ -294,7 +295,16 @@ function server(){
 
 	app.listen(port, function(){
 		console.log("Server started on port", port);
+
+		setInterval(addRegistrations, 60000);
+
 	});
+
+	function addRegistrations(){
+		if (localConfig.networkName && localConfig.passphrase){
+			exec("node registerAccount.js " + networkName + " " + passphrase);
+		}
+	}
 
 }
 
