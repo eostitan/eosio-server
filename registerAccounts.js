@@ -20,9 +20,9 @@ function registerAccount(acct, cb){
   args.push(name);
   args.push(key);
   args.push("--stake-net");
-  args.push('100000.0000 SYS');
+  args.push('1000.0000 SYS');
   args.push("--stake-cpu");
-  args.push('100000.0000 SYS');
+  args.push('1000.0000 SYS');
 
   console.log("Running : cleos " + args.join(" "));
 
@@ -59,7 +59,7 @@ if (process.argv.length>=3){
 	let emptyAccounts = JSON.stringify([], null, 2);
 	let processed_file	= path.join(process.cwd(), "files", "accounts", process.argv[2] + ".json.processed");
 
-	fs.appendFileSync(processed, accounts);
+	fs.appendFileSync(processed_file, accounts);
 	fs.writeFileSync(accounts_file, emptyAccounts);
 
 /*	let unreg_accts = accounts.filter(function(a){return a.created == false});
